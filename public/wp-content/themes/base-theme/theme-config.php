@@ -3,89 +3,67 @@
 namespace BaseTheme;
 
 /**
-* Loads the base theme class.  The base_theme_class is extended here.
-* Please see wiki documentation for full set of features and helpers available in the base_theme_class.
-*/
-include_once( 'core/base-theme-class.php' );  
+ * Loads the base theme class.  The BaseThemeClass is extended here.
+ * Please see wiki documentation for full set of features and helpers available in the BaseThemeClass.
+ */
+include_once( 'core/BaseThemeClass.php' );
 
-class Theme extends base_theme_class {
+class Theme extends BaseThemeClass {
 
-
-    /*
-    
-    Allows you to disable WordPress from including jQuery by default.
-
-    You should only set this to value if your theme.js file includes jQuery.
-
-    */
-    var $include_jquery = true;
-
+    /**
+     * Allows you to disable WordPress from including jQuery by default.
+     * You should only set this to value if your theme.js file includes jQuery.
+     */
+    public $include_jquery = true;
 
     /*
-    
-    Loads an options panel in wp-admin.
-    If this is enabled, you create custom fields and target them to this option panel.
-
-    */
-    var $load_options_panel = true;
-
+     * Loads an options panel in wp-admin.
+     * If this is enabled, you create custom fields and target them to this option panel.
+     */
+    public $load_options_panel = true;
 
     /*
-
-    if you want to force disable to WP theme editor, set this to true.
-    Since we keep our WP themes in version control, we set this to true by default.
-
-    */
-    var $disabled_theme_editor = true;
-
+     * If you want to force disable to WP theme editor, set this to true.
+     * Since we keep our WP themes in version control, we set this to true by default.
+     */
+    public $disabled_theme_editor = true;
 
     /*
-
-    toggle featured image support on your posts and pages
-
-    */
-    var $load_thumbnail_support = true;
-
+     * Toggle featured image support on your posts and pages
+     */
+    public $load_thumbnail_support = true;
 
     /*
-
-    this allows you to edit the default text that appears with post excerpts.
-    If you set this to null, a simple "..." will output at the end of each excerpt.
-
-    */
-    var $excerpt_text = 'Read More';
-
+     * This allows you to edit the default text that appears with post excerpts.
+     * If you set this to null, a simple "..." will output at the end of each excerpt.
+     */
+    public $excerpt_text = 'Read More';
 
     /*
-
-    by default, the theme will disable the ACF Options menu in wp-admin, unless WP_DEBUG is set to true.
-    If you want to force enable to ACF options panel to display, you can set this variable as true
-    
-    */
-    var $force_enable_acf_option_panel = false;
-
+     * By default, the theme will disable the ACF Options menu in wp-admin, unless WP_DEBUG is set to true.
+     * If you want to force enable to ACF options panel to display, you can set this variable as true
+     */
+    public $force_enable_acf_option_panel = false;
 
     public function __construct()
     {
-
-        parent::__construct(); 
+        parent::__construct();
 
         $this->theme_name = defined('THEME_NAME') ? THEME_NAME : 'base-theme';
         $this->version = getenv('VERSION') ? getenv('VERSION') : '1.0';
-
     }
 
-
-    /* Load more custom post types here */
+    /*
+     * Load custom post types here
+     */
     public function load_custom_post_types()
     {
+        // Sample Custom Post Type - Add as many as you'd like
 
-        // Sample Custom Post Type - Add as many as you'd like 
-
-        /* 
+        /*
         $this->custom_post_types['testimonial'] = array(
 
-            'label' => 'Testimonials',            
+            'label' => 'Testimonials',
             'description' => 'This is the testimonial custom post type',
             'public' => true,
             'exclude_from_search' => true,
@@ -95,17 +73,13 @@ class Theme extends base_theme_class {
             'rewrite' => false
 
             // any additional options can be added as defined in WP codex: https://codex.wordpress.org/Function_Reference/register_post_type
-        ); 
+        );
         */
-        
-
     }
-
 
     public function load_custom_taxonomies()
     {
-
-        // Sample Custom Taxonomy - Add as many as you'd like 
+        // Sample Custom Taxonomy - Add as many as you'd like
 
         /*
 
@@ -126,8 +100,8 @@ class Theme extends base_theme_class {
     public function load_shortcodes()
     {
 
-        //This is a sample shortcode.  Please see full shortcode documentation. 
-        
+        //This is a sample shortcode.  Please see full shortcode documentation.
+
         /* */
 
         /*add_shortcode( 'contact_form', function($atts) {
@@ -141,7 +115,7 @@ class Theme extends base_theme_class {
 
         });*/
 
-       
+
 
     }
 
@@ -159,7 +133,7 @@ class Theme extends base_theme_class {
             'after_title'   => '</h3>',
         ));*/
 
-        
+
     }
 
     public function load_options_panel()
@@ -185,7 +159,7 @@ class Theme extends base_theme_class {
             'parent_slug'   => 'theme-options-settings',
         ));
 
-        
+
 
     }
 
@@ -193,16 +167,16 @@ class Theme extends base_theme_class {
     {
 
         $this->menus = array(
-            'main_nav' => 'Main Navigation', 
+            'main_nav' => 'Main Navigation',
             'footer_nav' => 'Footer Navigation'
         );
-        
+
     }
 
     /**
     * Set the image size array.
     *
-    * $image_sizes[] = array('name' => 'image-size-name', 'width' => 600, 'height' => 400, 'crop' => true)  
+    * $image_sizes[] = array('name' => 'image-size-name', 'width' => 600, 'height' => 400, 'crop' => true)
     * set width/height to 9999 to not force that size.
     * set crop to false to not force the size.
     */
@@ -220,4 +194,3 @@ class Theme extends base_theme_class {
 }
 
 $theme = new \BaseTheme\Theme;
-
