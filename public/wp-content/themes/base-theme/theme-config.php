@@ -14,49 +14,56 @@ class Theme extends BaseThemeClass {
      * Allows you to disable WordPress from including jQuery by default.
      * You should only set this to value if your theme.js file includes jQuery.
      */
-    public $include_jquery = true;
+    public $includeJQuery = true;
 
     /*
      * Loads an options panel in wp-admin.
      * If this is enabled, you create custom fields and target them to this option panel.
      */
-    public $load_options_panel = true;
+    public $loadOptionsPanel = true;
 
     /*
      * If you want to force disable to WP theme editor, set this to true.
      * Since we keep our WP themes in version control, we set this to true by default.
      */
-    public $disabled_theme_editor = true;
+    public $disabledThemeEditor = true;
 
     /*
      * Toggle featured image support on your posts and pages
      */
-    public $load_thumbnail_support = true;
+    public $loadThumbnailSupport = true;
 
     /*
      * This allows you to edit the default text that appears with post excerpts.
      * If you set this to null, a simple "..." will output at the end of each excerpt.
      */
-    public $excerpt_text = 'Read More';
+    public $excerptText = 'Read More';
 
     /*
      * By default, the theme will disable the ACF Options menu in wp-admin, unless WP_DEBUG is set to true.
      * If you want to force enable to ACF options panel to display, you can set this variable as true
      */
-    public $force_enable_acf_option_panel = false;
+    public $forceEnableAcfOptionPanel = false;
 
     public function __construct()
     {
         parent::__construct();
 
-        $this->theme_name = defined('THEME_NAME') ? THEME_NAME : 'base-theme';
+        $this->themeName = defined('THEME_NAME') ? THEME_NAME : 'base-theme';
         $this->version = getenv('VERSION') ? getenv('VERSION') : '1.0';
+    }
+
+    public function loadCustomControllers()
+    {
+        $this->customControllers = [
+            \BaseTheme\Controllers\TestController::class
+        ];
     }
 
     /*
      * Load custom post types here
      */
-    public function load_custom_post_types()
+    public function loadCustomPostTypes()
     {
         // Sample Custom Post Type - Add as many as you'd like
 
@@ -77,7 +84,7 @@ class Theme extends BaseThemeClass {
         */
     }
 
-    public function load_custom_taxonomies()
+    public function loadCustomTaxonomies()
     {
         // Sample Custom Taxonomy - Add as many as you'd like
 
@@ -97,9 +104,8 @@ class Theme extends BaseThemeClass {
         */
     }
 
-    public function load_shortcodes()
+    public function loadShortcodes()
     {
-
         //This is a sample shortcode.  Please see full shortcode documentation.
 
         /* */
@@ -114,16 +120,10 @@ class Theme extends BaseThemeClass {
             ));
 
         });*/
-
-
-
     }
 
-
-
-    public function load_sidebars()
+    public function loadSidebars()
     {
-
         /*register_sidebar(array(
             'name'          => 'Primary',
             'id'            => 'sidebar-primary',
@@ -132,63 +132,54 @@ class Theme extends BaseThemeClass {
             'before_title'  => '<h3>',
             'after_title'   => '</h3>',
         ));*/
-
-
     }
 
-    public function load_options_panel()
+    public function loadOptionsPanel()
     {
-
-        acf_add_options_page(array(
+        acf_add_options_page([
             'page_title'    => 'Theme Options',
             'menu_title'    => 'Options',
             'menu_slug'     => 'theme-options-settings',
             'capability'    => 'edit_posts',
             'redirect'      => true
-        ));
+        ]);
 
-        acf_add_options_sub_page(array(
+        acf_add_options_sub_page([
             'page_title'    => 'Header & Footer Options',
             'menu_title'    => 'Header / Footer',
             'parent_slug'   => 'theme-options-settings',
-        ));
+        ]);
 
-        acf_add_options_sub_page(array(
+        acf_add_options_sub_page([
             'page_title'    => 'JavaScript & CSS Options',
             'menu_title'    => 'Javascript / CSS',
             'parent_slug'   => 'theme-options-settings',
-        ));
-
-
-
+        ]);
     }
 
-    public function set_menus()
+    public function setMenus()
     {
-
-        $this->menus = array(
+        $this->menus = [
             'main_nav' => 'Main Navigation',
             'footer_nav' => 'Footer Navigation'
-        );
-
+        ];
     }
 
     /**
-    * Set the image size array.
-    *
-    * $image_sizes[] = array('name' => 'image-size-name', 'width' => 600, 'height' => 400, 'crop' => true)
-    * set width/height to 9999 to not force that size.
-    * set crop to false to not force the size.
-    */
-    public function set_image_sizes()
+     * Set the image size array.
+     *
+     * $image_sizes[] = array('name' => 'image-size-name', 'width' => 600, 'height' => 400, 'crop' => true)
+     * set width/height to 9999 to not force that size.
+     * set crop to false to not force the size.
+     */
+    public function setImageSizes()
     {
-
-        $this->image_sizes[] = array(
+        $this->imageSizes[] = [
             'name' => 'medium-size',
             'width' => 600,
             'height' => 400,
             'crop' =>true
-        );
+        ];
     }
 
 }

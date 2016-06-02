@@ -1,0 +1,12 @@
+{
+    "require": {
+        "philo/laravel-blade": "3.*"
+    },
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "BaseTheme\\Blade\\": "core/blade",
+            "BaseTheme\\Controllers\\": "controllers"
+        }
+    }
+}

@@ -12,41 +12,39 @@ function asset($name)
 
 }
 
-class Helper {
+class Helper
+{
 
     /**
-    * Helper function that returns the first word of a string.
-    *
-    * @param  string  
-    * @return First word of the string param
-    */
+     * Helper function that returns the first word of a string.
+     *
+     * @param  string
+     * @return First word of the string param
+     */
     public static function get_first_word($string)
     {
-
         $parts = explode(" ", $string);
 
         return $parts[0];
     }
 
     /**
-    * Page titles
-    */
+     * Page titles
+     */
     public static function index_title()
     {
         if (is_home()) {
             if (get_option('page_for_posts', true)) {
+                if(get_field('h1_title', get_option('page_for_posts', true))) {
 
-                if(get_field('h1_title', get_option('page_for_posts', true)))
-                {
-                
                     return get_field('h1_title', get_option('page_for_posts', true));
-                
+
                 } else {
-                    
+
                     return get_the_title(get_option('page_for_posts', true));
 
                 }
-                
+
             } else {
                 return __('Latest Posts', 'default-theme');
             }
@@ -78,71 +76,65 @@ class Helper {
     }
 
     /**
-    * Helper method that returns a file from the public directory.
-    *
-    * @param  $name - path to asset
-    * @return path/to/asset
-    */
+     * Helper method that returns a file from the public directory.
+     *
+     * @param  $name - path to asset
+     * @return path/to/asset
+     */
     public static function asset( $name )
     {
-
         return get_template_directory_uri() . "/assets/{$name}";
-
     }
 
-    public static function image($attachment_id, $size = 'thumbnail', $attr = '') {
+    public static function image($attachment_id, $size = 'thumbnail', $attr = '')
+    {
+        $icon = false;
+        $html = '';
+        $image = wp_get_attachment_image_src($attachment_id, $size, $icon);
+        if ( $image ) {
+            list($src, $width, $height) = $image;
+            $hwstring = image_hwstring($width, $height);
+            $size_class = $size;
+            if ( is_array( $size_class ) ) {
+                $size_class = join( 'x', $size_class );
+            }
+            $attachment = get_post($attachment_id);
+            $default_attr = array(
+                'src'   => $src,
+                'class' => "attachment-$size_class",
+                'alt'   => trim(strip_tags( get_post_meta($attachment_id, '_wp_attachment_image_alt', true) )), // Use Alt field first
+            );
+            if ( empty($default_attr['alt']) )
+                $default_attr['alt'] = trim(strip_tags( $attachment->post_excerpt )); // If not, Use the Caption
+            if ( empty($default_attr['alt']) )
+                $default_attr['alt'] = trim(strip_tags( $attachment->post_title )); // Finally, use the title
 
-    $icon = false;
-    $html = '';
-    $image = wp_get_attachment_image_src($attachment_id, $size, $icon);
-    if ( $image ) {
-        list($src, $width, $height) = $image;
-        $hwstring = image_hwstring($width, $height);
-        $size_class = $size;
-        if ( is_array( $size_class ) ) {
-            $size_class = join( 'x', $size_class );
+            $attr = wp_parse_args($attr, $default_attr);
+
+
+            $attr = apply_filters( 'wp_get_attachment_image_attributes', $attr, $attachment, $size );
+            $attr = array_map( 'esc_attr', $attr );
+            $html = rtrim("<img ");
+            foreach ( $attr as $name => $value ) {
+                $html .= " $name=" . '"' . $value . '"';
+            }
+            $html .= ' />';
         }
-        $attachment = get_post($attachment_id);
-        $default_attr = array(
-            'src'   => $src,
-            'class' => "attachment-$size_class",
-            'alt'   => trim(strip_tags( get_post_meta($attachment_id, '_wp_attachment_image_alt', true) )), // Use Alt field first
-        );
-        if ( empty($default_attr['alt']) )
-            $default_attr['alt'] = trim(strip_tags( $attachment->post_excerpt )); // If not, Use the Caption
-        if ( empty($default_attr['alt']) )
-            $default_attr['alt'] = trim(strip_tags( $attachment->post_title )); // Finally, use the title
-
-        $attr = wp_parse_args($attr, $default_attr);
-
-
-        $attr = apply_filters( 'wp_get_attachment_image_attributes', $attr, $attachment, $size );
-        $attr = array_map( 'esc_attr', $attr );
-        $html = rtrim("<img ");
-        foreach ( $attr as $name => $value ) {
-            $html .= " $name=" . '"' . $value . '"';
-        }
-        $html .= ' />';
+        return $html;
     }
-
-    return $html;
-}
-
 
     /**
-    * Return Breadcrumbs
-    *
-    * @param  int  
-    * @return Response
-    */
+     * Return Breadcrumbs
+     *
+     * @param  int
+     * @return Response
+     */
     public static function breadcrumbs()
     {
         if ( function_exists('yoast_breadcrumb') )
         {
             $breadcrumbs = yoast_breadcrumb( '<li>', '</li>', false );
-
             $breadcrumbs = str_replace( '|', '</li><li>', $breadcrumbs );
-
 
             echo "<ul>{$breadcrumbs}</ul>";
         }
@@ -150,8 +142,8 @@ class Helper {
     }
 
     /**
-    * Returns the thumbnail with a caption.
-    */
+     * Returns the thumbnail with a caption.
+     */
     public static function the_post_thumbnail_caption() {
         global $post;
 

@@ -1,7 +1,6 @@
 <?php
 
-require( 'theme-config.php' );  
-
+require( 'theme-config.php' );
 
 /**
  * Customize the classes added to next/prev post links
@@ -11,8 +10,6 @@ add_filter('previous_posts_link_attributes', 'posts_link_attributes');
 function posts_link_attributes() {
     return 'class="btn btn-load"';
 }
-
-
 
 /**
  * Adds the ability for v-card to be uploaded to media uploader.  Add additional mime types here as needed.
