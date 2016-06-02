@@ -5,7 +5,7 @@
     "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
-            "BaseTheme\\Blade\\": "core/blade",
+            "BaseTheme\\Core\\Blade\\": "core/blade",
             "BaseTheme\\Controllers\\": "controllers"
         }
     }

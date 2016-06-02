@@ -1,4 +1,5 @@
-<?php namespace BaseTheme\Blade;
+<?php
+namespace BaseTheme\Core\Blade;
 
 /**
  * Uses the Blade templating engine

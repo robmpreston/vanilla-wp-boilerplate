@@ -1,5 +1,5 @@
 <?php
-namespace BaseTheme\Blade;
+namespace BaseTheme\Core\Blade;
 
 /**
  * Logic Controller

@@ -426,7 +426,7 @@ abstract class BaseThemeClass
     */
     protected function loadBladeTemplating()
     {
-        $this->blade = new \BaseTheme\Blade\Blade(
+        $this->blade = new \BaseTheme\Core\Blade\Blade(
             get_template_directory() . '/views'
         );
     }

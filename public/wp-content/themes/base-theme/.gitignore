@@ -1,5 +1,5 @@
 node_modules
 assets/compiled
-vendor
+vendor/*
 cache
 *.log

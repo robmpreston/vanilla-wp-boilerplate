@@ -1,7 +1,7 @@
 <?php
 namespace BaseTheme\Controllers;
 
-use BaseTheme\Blade\Controller;
+use BaseTheme\Core\Blade\Controller;
 
 class TestController extends Controller {
 
