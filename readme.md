@@ -1,4 +1,4 @@
-# Vanilla WP Boilerplate [Read the Docs](https://docs.google.com/document/d/1ZveliPLQhArJp6eKM_6DnXCJSGQtno5mOF8ANkKTnMM/edit#)
+# Vanilla WP Boilerplate
 ## Introduction
 Vanilla WP Boilerplate is a boilerplate designed to simplify the process of taking static HTML/CSS and template it out into a custom WordPress theme.
 
@@ -55,27 +55,29 @@ To complete installation, visit http://sample-project.dev/wp-admin and follow th
 
 When you finish this step, you should be able to login to your wp-admin area, and then activate the boilerplate theme.
 
-## What's Included ##
+## Basics ##
 
-### Wordpress Core ###
+### What's Included ###
+
+#### Wordpress Core ####
 This project not only includes the Vanilla theme, but also the entirety of Wordpress Core. With the latest version of WP included, it makes it easier to automate deployments
 of sites that are built using the Vanilla template. You can install the theme manually into WP elsewhere with no problems.
 
 As a best practice, the WP core files in wp-admin and wp-includes should never be modified. Editing files here could cause problems if you update to the latest WP version
 as your changes would be overwritten.
 
-### Laravel Blade Templating Engine ###
+#### Laravel Blade Templating Engine ####
 The Blade templating engine, developed for Laravel has been included in this theme.
 
 Using Blade gives you the ability to make your frontend templates much cleaner and organized. You can read the blade documentation here: https://laravel.com/docs/5.2/blade
 
-### Gravity Forms Plugin ###
+#### Gravity Forms Plugin ####
 We always recommend Gravity Forms as the best plugin to use for form submission management and so we include it within the repository.  There are no hard dependencies on Gravity Forms so if you wanted to remove this or replace it with a different contact form plugin, that would be fine.
 
-### Advanced Custom Fields Pro ###
+#### Advanced Custom Fields Pro ####
 ACF5 is bundled directly into the theme itself because it relies on the ACF5 Options Panel functionality and we also use Advanced Custom Fields heavily during WP development.  For the time being, the theme does not work well without ACF5, but on a future release, we may have a version of the theme that does not use ACF5.
 
-## Directory Structure ##
+### Directory Structure ###
 
 This is the directory structure of the Vanilla theme itself.  The theme directory is in `public/wp-content/themes`, which is where all of your theme coding and customization will happen.
 
@@ -103,3 +105,19 @@ This is the directory structure of the Vanilla theme itself.  The theme director
 * **screenshot.png** - This is the screenshot that appears on the theme activation page in wp-admin.  Feel free to replace this with any image you want.
 * **theme-config.php** - The config file for Vanilla.  This is where the bulk of the configuration will happen for your theme.
 * **style.css** - This is the default stylesheet.  You can update the name of the theme, and the author, in this file.
+
+### Asset Pipeline ###
+The Vanilla theme is driven by a gulpfile.js which is included in the root of the theme. By default, Gulp will compile your theme.scss to a theme.css and your Javascript source files in the js/custom and js/plugins folders to theme.js. These two files will automatically be output into the header and footer of each plage using the Vanilla boilerplate.
+
+### Theme Config File ###
+If you are already a WordPress developer, the power of the Vanilla theme comes with the theme-config.php file where you can quickly define and utilize all of the various WordPress components, all in one place.
+
+## Theme Components ##
+
+### Templates ###
+
+### Controllers ###
+
+### Custom Page Templates ###
+
+### Custom Post Types
