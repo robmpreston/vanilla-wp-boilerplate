@@ -4,6 +4,7 @@ Vanilla WP Boilerplate is a boilerplate designed to simplify the process of taki
 
 ## Table of contents ##
 * [Installation](#installation)
+* [What's Included](#whats-included)
 * [Directory Structure](#directory-structure)
 
 ## Installation
@@ -53,6 +54,26 @@ Once this is setup, you can visit the site in your browser at the domain you've 
 To complete installation, visit http://sample-project.dev/wp-admin and follow the prompts
 
 When you finish this step, you should be able to login to your wp-admin area, and then activate the boilerplate theme.
+
+## What's Included ##
+
+### Wordpress Core ###
+This project not only includes the Vanilla theme, but also the entirety of Wordpress Core. With the latest version of WP included, it makes it easier to automate deployments
+of sites that are built using the Vanilla template. You can install the theme manually into WP elsewhere with no problems.
+
+As a best practice, the WP core files in wp-admin and wp-includes should never be modified. Editing files here could cause problems if you update to the latest WP version
+as your changes would be overwritten.
+
+### Laravel Blade Templating Engine ###
+The Blade templating engine, developed for Laravel has been included in this theme.
+
+Using Blade gives you the ability to make your frontend templates much cleaner and organized. You can read the blade documentation here: https://laravel.com/docs/5.2/blade
+
+### Gravity Forms Plugin ###
+We always recommend Gravity Forms as the best plugin to use for form submission management and so we include it within the repository.  There are no hard dependencies on Gravity Forms so if you wanted to remove this or replace it with a different contact form plugin, that would be fine.
+
+### Advanced Custom Fields Pro ###
+ACF5 is bundled directly into the theme itself because it relies on the ACF5 Options Panel functionality and we also use Advanced Custom Fields heavily during WP development.  For the time being, the theme does not work well without ACF5, but on a future release, we may have a version of the theme that does not use ACF5.
 
 ## Directory Structure ##
 
