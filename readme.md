@@ -4,7 +4,7 @@ Vanilla WP Boilerplate is a boilerplate designed to simplify the process of taki
 
 ## Table of contents ##
 * [Installation](#installation)
-* [What's Included](#whats-included)
+* [Basics](#basics)
 * [Directory Structure](#directory-structure)
 
 ## Example
@@ -13,7 +13,7 @@ Stock Wordpress
 ```
 <?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
     <h2>
-        <a href="<?php the_permalink(); ?>" rel="bookmark" title="Permanent Link to <?php the_title_attribute(); ?>">
+        <a href="<?php the_permalink(); ?>">
             <?php the_title(); ?>
         </a>
     </h2>
@@ -21,7 +21,7 @@ Stock Wordpress
         <?php the_content(); ?>
     </div>
 <?php endwhile; else : ?>
-    <p><?php _e( 'Sorry, no posts matched your criteria.' ); ?></p>
+    <p>Sorry, no posts matched your criteria.</p>
 <?php endif; ?>
 ```
 
@@ -29,7 +29,7 @@ Vanilla Boilerplate
 ```
 @wpposts
     <h2>
-        <a href="{{ the_permalink() }}" rel="bookmark" title="Permanent Link to {{ the_title_attribute() }}">
+        <a href="{{ the_permalink() }}">
             {{ the_title() }}
         </a>
     </h2>
@@ -41,7 +41,7 @@ Vanilla Boilerplate
 @wpend
 ```
 
-As you can see, using blade syntax will clean up your templates a ton!
+As you can see, using blade syntax will help to clean up your templates.
 
 ## Installation
 
@@ -60,8 +60,6 @@ Once you have Composer installed on your machine, you will need to open your Ter
 
 ```
 cd ~/Code/sample-project.dev
-composer install
-cd public/wp-content/themes/base-theme
 composer install
 ```
 
@@ -148,9 +146,71 @@ The Vanilla theme is driven by a gulpfile.js which is included in the root of th
 ### Theme Config File ###
 If you are already a WordPress developer, the power of the Vanilla theme comes with the theme-config.php file where you can quickly define and utilize all of the various WordPress components, all in one place.
 
+Follow the [Theme Components](#theme-components) guide to configure your theme-config.php
+
 ## Theme Components ##
 
 ### Templates ###
+The Vanilla theme uses the Laravel Blade template engine to power the theme files.  For more details on Blade, you can read the documentation here: https://laravel.com/docs/5.2/blade
+
+#### Layouts ####
+
+For reference, here is the default layout that we use in the theme:
+```
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ wp_title('') }}</title>
+
+    @yield('head')
+
+    {{ wp_head() }}
+
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+@yield('content')
+
+{{ wp_footer() }}
+</body>
+</html>
+```
+
+#### Views ####
+Views represent what the user of your site will actually see. For example, your theme will likely have a home page, an about page, a contact page, etc. Each of these pages will use a unique template, and each of these unique templates is what we call a "view". We will turn your static HTML files into a reusable view that will be placed into the views directory of the Vanilla theme. The goal being to convert all of your static HTML files into a dynamic, reusable view.
+
+The default views that are created for you are:
+* **404.blade.php** - This replaces the 404.php and will be displayed whenever a page is not found.
+* **index.blade.php** - The root view for your site, view is loaded in place of the index.php in the root.
+* **page.blade.php** - This replaces the page.php and will be displayed for pages with the default template.
+* **single.blade.php** - This replaces the single.php and will be displayed for posts with the default template.
+* **test-page.blade.php** - This is a simple custom page template
+
+Other examples of common views in your theme:
+
+Blog index page (a feed of blog posts)
+Blog single page (a single blog post)
+Blog category page (a feed of blog posts from a specific category)
+Search results page
+Product page
+
+The most important concept to remember is that we are creating these views so that they are reusable and completely dynamic.  For example, if you have a Product view, it may be re-used to show several different products on the site.
+
+#### Partials ####
+In the name of DRY (Don't Repeat Yourself), we place any front end code that is used across more than 1 view into a specific partial.  For example, if both your "Home Page" view and your "Product" view has a newsletter HTML on it, we can copy the code for the newsletter, place it into a partial, and then load the partial in both of the views using:
+
+```
+@include('partials/name-of-partial')
+```
+
+Any time you find two views using the same block of HTML, you should partial it out into a file in the `partials` directory.  Never have the same code in two different places.
 
 ### Controllers ###
 
