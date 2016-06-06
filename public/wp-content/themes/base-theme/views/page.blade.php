@@ -9,6 +9,7 @@
                     {{ the_content() }}
                 </div>
             </div>
+            [contact_form]
         </main>
     @wpempty
     @wpend

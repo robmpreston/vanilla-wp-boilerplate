@@ -12,7 +12,7 @@ class Theme extends BaseThemeClass {
 
     /**
      * Allows you to disable WordPress from including jQuery by default.
-     * You should only set this to value if your theme.js file includes jQuery.
+     * You should only set this to true if your theme.js file includes jQuery.
      */
     public $includeJQuery = true;
 
@@ -53,6 +53,10 @@ class Theme extends BaseThemeClass {
         $this->version = getenv('VERSION') ? getenv('VERSION') : '1.0';
     }
 
+    /**
+     * Specify any custom view controllers you've created here and they
+     * will be registered by the theme
+     */
     public function loadCustomControllers()
     {
         $this->customControllers = [
@@ -61,79 +65,80 @@ class Theme extends BaseThemeClass {
     }
 
     /*
-     * Load custom post types here
+     * Specify your custom post types here and they will be loaded by the theme
      */
     public function loadCustomPostTypes()
     {
-        // Sample Custom Post Type - Add as many as you'd like
+        $this->customPostTypes['custom_post'] = [
 
-        /*
-        $this->custom_post_types['testimonial'] = array(
-
-            'label' => 'Testimonials',
-            'description' => 'This is the testimonial custom post type',
+            'label' => 'Custom Post',
+            'description' => 'This is a custom post type',
             'public' => true,
             'exclude_from_search' => true,
             'show_ui' => true,
-            'supports' => array('title', 'editor'),
+            'supports' => [ 'title', 'editor' ],
             'has_archive' => false,
-            'rewrite' => false
-
-            // any additional options can be added as defined in WP codex: https://codex.wordpress.org/Function_Reference/register_post_type
-        );
-        */
+            'rewrite' => false,
+            'single-post-view' => 'custom.custom_post'
+        ];
     }
 
+    /*
+     * Specify your custom taxonomies here and they will be loaded by the theme
+     */
     public function loadCustomTaxonomies()
     {
         // Sample Custom Taxonomy - Add as many as you'd like
 
-        /*
+        $this->customTaxonomies['custom_post-category'] = [
 
-        $this->custom_taxonomies['testimonial-category'] = array(
-
-            'belongs_to_post_type' => 'testimonial',
-            'label' => 'Testimonial Categories',
-            'description' => 'These are the categories used to sort testimonials',
+            'belongs_to_post_type' => 'custom_post',
+            'label' => 'Post Categories',
+            'description' => 'These are the categories used to sort custom posts',
             'public' => true,
             'hierarchical' => false
 
             // any additional options can be added as defined in WP codex: https://codex.wordpress.org/Function_Reference/register_taxonomy
-        );
-
-        */
+        ];
     }
 
+    /*
+     * Specify your custom shortcodes here
+     */
     public function loadShortcodes()
     {
         //This is a sample shortcode.  Please see full shortcode documentation.
 
-        /* */
-
-        /*add_shortcode( 'contact_form', function($atts) {
-
-            return view('forms/contact-form')->with(array(
-
+        /*
+        add_shortcode( 'contact_form', function($atts) {
+            return $this->blade->view('forms/contact-form', [
                 'form_title' => 'Contact Us',
                 'atts' => $atts
-
-            ));
-
-        });*/
+            ]);
+        });
+        */
     }
 
+    /*
+     * Specify your sidebars to be loaded here
+     */
     public function loadSidebars()
     {
-        /*register_sidebar(array(
+        /*
+        register_sidebar([
             'name'          => 'Primary',
             'id'            => 'sidebar-primary',
             'before_widget' => '<section class="widget %1$s %2$s">',
             'after_widget'  => '</section>',
             'before_title'  => '<h3>',
             'after_title'   => '</h3>',
-        ));*/
+        ]);
+        */
     }
 
+    /*
+     * Add ACF Options pages here
+     */
     public function loadOptionsPanel()
     {
         acf_add_options_page([
@@ -157,6 +162,9 @@ class Theme extends BaseThemeClass {
         ]);
     }
 
+    /*
+     * Specify the menus to be loaded by the theme
+     */
     public function setMenus()
     {
         $this->menus = [

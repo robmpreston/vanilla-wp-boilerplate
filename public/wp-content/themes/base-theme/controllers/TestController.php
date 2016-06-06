@@ -3,7 +3,8 @@ namespace BaseTheme\Controllers;
 
 use BaseTheme\Core\Blade\Controller;
 
-class TestController extends Controller {
+class TestController extends Controller
+{
 
     protected $views = [
         'index'

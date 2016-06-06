@@ -216,7 +216,8 @@ abstract class BaseThemeClass
     }
 
     /**
-     * This method will loop through the $custom_post_types array and generate the register_post_type function call.
+     * This method will loop through the $customPostTypes array and generate the
+     * register_post_type function call and register a custom single post view.
      */
     public function addCustomPostTypes()
     {
@@ -228,12 +229,16 @@ abstract class BaseThemeClass
             foreach($this->customPostTypes as $postTypeName => $options)
             {
                 register_post_type($postTypeName, $options);
+                if (isset($options['single-post-view'])) {
+                    $this->blade->registerCustomPostView($postTypeName, $options['single-post-view']);
+                }
             }
         }
     }
 
     /**
-     * This method will loop through the $custom_post_types array and generate the register_post_type function call.
+     * This method will loop through the $customTaxonomies array, ensure that the
+     * associated post type exists and then call register_taxonomy
      */
     public function addCustomTaxonomies()
     {
@@ -265,7 +270,7 @@ abstract class BaseThemeClass
     /**
      * Files to Include
      *
-     * The $files_to_load array determines the code included in the theme by default.
+     * The $filesToLoad array determines the code included in the theme by default.
      * Add or remove files to the array as needed.
      *
      */
@@ -363,7 +368,7 @@ abstract class BaseThemeClass
     }
 
     /**
-     * Display the specified resource.
+     * Load the thumbnail and image size options
      */
     protected function loadThumbnailSupport()
     {
@@ -382,9 +387,7 @@ abstract class BaseThemeClass
     }
 
     /**
-    * Returms the path to the favicon files for the head of the site.
-    *
-    * @return HTML output
+    * Outputs the html for the favicon and other icons
     */
     public function loadFavicons()
     {
@@ -410,7 +413,7 @@ abstract class BaseThemeClass
     /**
     * Loads the menus.
     *
-    * You will need to set the $menus param in the set_menus method in functions.php
+    * You will need to set the $menus param in theme-config.php
     */
     protected function loadMenuSupport()
     {
@@ -432,11 +435,10 @@ abstract class BaseThemeClass
     }
 
     /**
-     * Load the view controllers.
+     * Load and registers any view controllers from theme-config.php
      */
     protected function addCustomControllers()
     {
-        /* loads the custom controllers from theme-config.php */
         $this->loadCustomControllers();
 
         if( is_array($this->customControllers) )
@@ -447,12 +449,11 @@ abstract class BaseThemeClass
 
     /**
     * Clears the blade view cache in development
-    *
     */
     public function clearBladeCache()
     {
         if (defined('WP_DEBUG') && WP_DEBUG === true) {
-            $cachedViewsDirectory = WP_BLADE_ROOT . 'storage/views/';
+            $cachedViewsDirectory = get_template_directory() . 'core/blade/cache/';
 
             $files = glob($cachedViewsDirectory.'*');
 

@@ -19,6 +19,12 @@ class Blade {
 	protected $views;
 
 	/**
+	 * Array to store views for custom post types
+	 * @var array
+	 */
+	protected $customPostViews;
+
+	/**
 	 * Cache folder
 	 * @var string
 	 */
@@ -35,6 +41,7 @@ class Blade {
 	 */
 	public function __construct($views)
     {
+		$this->customPostViews = [];
 		$this->views = $views;
 		$this->cache = get_template_directory() . '/core/blade/cache';
 		$this->controller = new Controllers;
@@ -58,20 +65,59 @@ class Blade {
 		if( ! $template )
 			return $template; // Noting to do here. Come back later.
 
-		// get the base name
-		$file = basename($template);
+		$postTypes = $this->getCustomPostTypes();
+		$postType = get_post_type();
 
-		// blade friendly name
-		$view = str_replace('.php', '', $file);
+		/*
+		 * This is where the magic happens. If it's a custom post, load either the
+		 * specified single post view or the named blade template from our views folder.
+		 *
+		 * If it's a single page, load our page template
+		 *
+		 * Otherwise, load the blade with the $template name
+		 */
+		if ( in_array($postType, $postTypes) && is_single() ) {
+			if (isset($this->customPostViews[$postType])) {
+				$view = $this->customPostViews[$postType];
+			} else {
+				$view = $postType;
+			}
+		} else if (is_page()) {
+			$view = 'page';
+		} else {
+			// get the base name
+			$file = basename($template);
 
-		// find a controller
+			// blade friendly name
+			$view = str_replace('.php', '', $file);
+		}
+
+		// Find controllers for this view
 		$controller = $this->getController($view);
 
-		// run the blade code
+		// Compile and output the blade, with the attached controller's data if it exists
 		echo $this->blade->view()->make($view)->with(['data' => $controller ? $controller->process() : []])->render();
 
 		// halt including
 		return '';
+	}
+
+	/**
+	 * Simple helper function to render a specific view with passed data
+	 */
+	public function view($view, $attributes)
+	{
+		return $this->blade->view()->make($view)->with($attributes);
+	}
+
+	/**
+	 * Registers a view for a specific custom post type
+	 * to be used in place of default view with the same
+	 * name as the custom post type
+	 */
+	public function registerCustomPostView($postType, $view)
+	{
+		$this->customPostViews[$postType] = $view;
 	}
 
 	/**
@@ -213,4 +259,18 @@ class Blade {
 		});
 	}
 
+	private function getCustomPostTypes()
+	{
+		$args = [
+   			'public'   => true,
+   			'_builtin' => false
+		];
+
+		$output = 'names'; // names or objects, note names is the default
+		$operator = 'and'; // 'and' or 'or'
+
+		$postTypes = get_post_types( $args, $output, $operator );
+
+		return $postTypes;
+	}
 }
