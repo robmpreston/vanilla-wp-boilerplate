@@ -203,7 +203,7 @@ Product page
 
 The most important concept to remember is that we are creating these views so that they are reusable and completely dynamic.  For example, if you have a Product view, it may be re-used to show several different products on the site.
 
-#### Partials ####
+#### Partia                                   ls ####
 In the name of DRY (Don't Repeat Yourself), we place any front end code that is used across more than 1 view into a specific partial.  For example, if both your "Home Page" view and your "Product" view has a newsletter HTML on it, we can copy the code for the newsletter, place it into a partial, and then load the partial in both of the views using:
 
 ```
@@ -213,9 +213,48 @@ In the name of DRY (Don't Repeat Yourself), we place any front end code that is 
 Any time you find two views using the same block of HTML, you should partial it out into a file in the `partials` directory.  Never have the same code in two different places.
 
 ### Controllers ###
+Controllers can be used to pass data to a view. A TestController.php is included to demonstrate it's use. Specify what views the controller applies to in the $views array and return the actual data in the process method.
 
 ### Custom Page Templates ###
+Pages are also enabled by default in every WordPress theme. Pages and posts are identical other than  (1) pages are hierarchical, so a page can have a parent page and many children pages and (2) pages do not have category or tags associated with them (although you certainly can enable this behavior if you wanted to).
+
+A unique feature to pages is that you can also create Custom Page Templates, and then assign the custom page templates to specific pages on your site.  For example, you may have an About Us page and you want to use a custom template  You can simply create a new file in the “views” directory called “about.blade.php”, and use the code below as a template:
+```
+@layout('layouts/master')
+<?php /* Template Name: About Page Template */ ?>
+@section('content')
+<?php while ( have_posts() ) : the_post(); ?>
+
+    <!--  
+
+    your html goes here
+
+    -->
+
+
+@endsection
+```
 
 ### Custom Post Types ###
+Post Types refer to the data of your WP theme.  Both “Posts” and “Pages” that we just covered, are “post types” within WordPress that are enabled by default.
+
+WordPress gives you the ability to create more post types if your theme requires it.
+
+In many cases, your theme will not require you to create any additional post types, and the post and page post types will fulfill all the needs of your theme.
+
+However, let's assume that the site you are building has other data types.  For example, maybe your site has client testimonials that are displayed in various parts of the site.  Or, if you are building a portfolio on your site, you will have many different portfolio items.  Finally, if you are selling something on your site, you may have a list of products.  In each of those cases, you will need to create a Custom Post Type (CPT) so that you will be able to easily store this data in your theme.
+
+Within the theme-config.php, it is easy to add an additional post type within the loadCustomPostTypes() method. You can reference the WordPress documentation for register_post_type to see what arguments can be added for each custom post type. https://codex.wordpress.org/Function_Reference/register_post_type
 
 ### Custom Taxonomies ###
+
+Taxonomies can be used to sort and filter your post types.  By default, WordPress includes the following taxonomies:
+
+Categories - categories, by default, only exist on the "Posts" post type.  Categories allow you to group many posts together.
+Tags - tags, by default, also only exists on the "Posts" post type.  Tags also allow you to group many posts together.
+
+The main difference between categories and tags is that categories are hierarchical and tags are not.  This means that categories can have parent and children categories, whereas tags cannot.
+
+In the Post Types section, we explained how you can create "Custom Post Types".  We can also create "Custom Taxonomies" and assign them to the Post Types in the theme which us allows us to filter the posts.  For example, if we have a Products CPT, we may want to be able to filter these Products by their color.  We can create a Custom Taxonomy called "Color" and then assign it to the Products CPT.  This would allow us to then add Colors, and assign them to the products.
+
+Within the theme-config.php, you can create custom taxonomies and assign them to post types within the loadCustomTaxonomies() method.
