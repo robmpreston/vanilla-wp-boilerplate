@@ -50,10 +50,10 @@ class Blade {
 		$this->extend();
 
 		// Bind to template include action
-		add_action( 'template_include', [ $this, 'bladeInclude' ]);
+		add_action( 'template_include', array( $this, 'bladeInclude' ) );
 
 		// Listen for Buddypress include action
-		add_filter( 'bp_template_include', [ $this, 'bladeInclude' ]);
+		add_filter( 'bp_template_include', array( $this, 'bladeInclude' ) );
 	}
 
 	/**
@@ -83,7 +83,14 @@ class Blade {
 				$view = $postType;
 			}
 		} else if (is_page()) {
-			$view = 'page';
+			$pageTemplate = get_page_template();
+			if ($pageTemplate != '') {
+				$view = strstr(basename($pageTemplate), '.', true);
+			} else {
+				$view = 'page';
+			}
+		} else if (is_404()) {
+			$view = '404';
 		} else {
 			// get the base name
 			$file = basename($template);
@@ -96,7 +103,7 @@ class Blade {
 		$controller = $this->getController($view);
 
 		// Compile and output the blade, with the attached controller's data if it exists
-		echo $this->blade->view()->make($view)->with(['data' => $controller ? $controller->process() : []])->render();
+		echo $this->blade->view()->make($view)->with( array('data' => $controller ? $controller->process() : array() ) )->render();
 
 		// halt including
 		return '';
@@ -254,7 +261,7 @@ class Blade {
 			foreach($scripts as $script) {
 				$name = basename($script);
 				$slug = sanitize_title($name);
-				wp_enqueue_script( $slug, get_template_directory_uri() . '/' . $script, ['jquery'] );
+				wp_enqueue_script( $slug, get_template_directory_uri() . '/' . $script, array ('jquery') );
 			}
 		});
 	}
