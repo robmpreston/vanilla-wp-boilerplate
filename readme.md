@@ -2,6 +2,10 @@
 ## Introduction
 Vanilla WP Boilerplate is a boilerplate designed to simplify the process of taking static HTML/CSS and template it out into a custom WordPress theme.
 
+## Table of contents ##
+* [Installation](#installation)
+* [Directory Structure](#directory-structure)
+
 ## Installation
 
 ### Clone the Github repository
@@ -71,17 +75,10 @@ This is the directory structure of the Vanilla theme itself.  The theme director
         * **forms** - This is an optional directory where you can store any form partials
 * **shortcodes** - If your theme will have any custom shortcodes, you can place the template files for the shortcodes in this directory.
 * **sidebars** - For any custom sidebars, you can place them in this directory.
-
-404.php - the default 404 template for the Vanilla theme.  This can be customized as you see fit.
-
-functions.php - This file behaves just as a functions.php file would behave in any WordPress theme.  You can place any WP customization code here as needed
-
-gulpfile.js - This file is what we use to compile all of the JavaScript and SASS/LESS from the assets directory into the assets/compiled directory
-
-package.json - This file defines the Node.js packages that are required for the gulpfile to work correctly (more on this later)
-
-screenshot.png - This is the screenshot that appears on the theme activation page in wp-admin.  Feel free to replace this with any image you want.
-
-theme-config.php - The config file for Vanilla.  This is where the bulk of the configuration will happen for your theme.
-
-style.css - This is the default stylesheet.  You can update the name of the theme, and the author, in this file.
+* **404.php** - the default 404 template for the Vanilla theme.  This can be customized as you see fit.
+* **functions.php** - This file behaves just as a functions.php file would behave in any WordPress theme.  You can place any WP customization code here as needed
+* **gulpfile.js** - This file is what we use to compile all of the JavaScript and SASS/LESS from the assets directory into the assets/compiled directory
+* **package.json** - This file defines the Node.js packages that are required for the gulpfile to work correctly (more on this later)
+* **screenshot.png** - This is the screenshot that appears on the theme activation page in wp-admin.  Feel free to replace this with any image you want.
+* **theme-config.php** - The config file for Vanilla.  This is where the bulk of the configuration will happen for your theme.
+* **style.css** - This is the default stylesheet.  You can update the name of the theme, and the author, in this file.
