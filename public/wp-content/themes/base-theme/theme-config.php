@@ -79,7 +79,7 @@ class Theme extends BaseThemeClass {
             'supports' => [ 'title', 'editor' ],
             'has_archive' => false,
             'rewrite' => false,
-            'single-post-view' => 'custom.custom_post'
+            'single-post-view' => 'custom_post'
         ];
     }
 
