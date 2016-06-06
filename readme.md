@@ -50,32 +50,38 @@ To complete installation, visit http://sample-project.dev/wp-admin and follow th
 
 When you finish this step, you should be able to login to your wp-admin area, and then activate the boilerplate theme.
 
-Directory Structure
+## Directory Structure ##
 
 This is the directory structure of the Vanilla theme itself.  The theme directory is in `public/wp-content/themes`, which is where all of your theme coding and customization will happen.
 
+* **assets** - All static assets
+    * **compiled** - This directory should largely be untouched by you.  This is where compiled assets end up.  More on this later.
+    * **js** - Javascript files
+        * **plugins** - All JavaScript plugins your front end uses go here
+        * **custom** - All custom JavaScript or jQuery should go here
+    * **sass** - Default SASS directory (this can also be a less/ directory if your front end uses less).  You should place all of your SCSS or LESS files in this directory.
+    * **images** - Place all of the images from your front end into this directory.
+    * **fonts** - If your front end uses any custom fonts, you can place the font files in this directory.
+* **controllers** - Your custom view controllers go here. Used to pass data to the blade views.
+* **core** - This is all of the core theme files.  This is where the magic of the Vanilla theme happens.
+* **endpoints** - This is where we place any endpoints that are needed in the theme.  For example, if your theme has a contact form, you will likely create a file in this directory called contact-form.php.
+* **views** - All bladed views for the theme are contained here
+    * **layouts** - Fundamental layouts of the templates
+    * **partials** - Various includes (Header, Footer, etc.)
+        * **forms** - This is an optional directory where you can store any form partials
+* **shortcodes** - If your theme will have any custom shortcodes, you can place the template files for the shortcodes in this directory.
+* **sidebars** - For any custom sidebars, you can place them in this directory.
 
-* assets - All static assets
-    * compiled - This directory should largely be untouched by you.  This is where compiled assets end up.  More on this later.
-    * js - Javascript files
-        * plugins - All JavaScript plugins your front end uses go here
-        * custom - All custom JavaScript or jQuery should go here
-    * sass - Default SASS directory (this can also be a less/ directory if your front end uses less).  You should place all of your SCSS or LESS files in this directory.
-    * images - Place all of the images from your front end into this directory.
-    * fonts - If your front end uses any custom fonts, you can place the font files in this directory.
-* controllers - Your custom view controllers go here. Used to pass data to the blade views.
-* core - This is all of the core theme files.  This is where the magic of the Vanilla theme happens.
-* endpoints - This is where we place any endpoints that are needed in the theme.  For example, if your theme has a contact form, you will likely create a file in this directory called contact-form.php.
-* views - All bladed views for the theme are contained here
-    * layouts - Fundamental layouts of the templates
-    * partials - Various includes (Header, Footer, etc.)
-        * forms - This is an optional directory where you can store any form partials
-* shortcodes - If your theme will have any custom shortcodes, you can place the template files for the shortcodes in this directory.
-* sidebars - For any custom sidebars, you can place them in this directory.
 404.php - the default 404 template for the Vanilla theme.  This can be customized as you see fit.
+
 functions.php - This file behaves just as a functions.php file would behave in any WordPress theme.  You can place any WP customization code here as needed
+
 gulpfile.js - This file is what we use to compile all of the JavaScript and SASS/LESS from the assets directory into the assets/compiled directory
+
 package.json - This file defines the Node.js packages that are required for the gulpfile to work correctly (more on this later)
+
 screenshot.png - This is the screenshot that appears on the theme activation page in wp-admin.  Feel free to replace this with any image you want.
+
 theme-config.php - The config file for Vanilla.  This is where the bulk of the configuration will happen for your theme.
+
 style.css - This is the default stylesheet.  You can update the name of the theme, and the author, in this file.
