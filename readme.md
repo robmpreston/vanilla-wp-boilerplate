@@ -120,4 +120,6 @@ If you are already a WordPress developer, the power of the Vanilla theme comes w
 
 ### Custom Page Templates ###
 
-### Custom Post Types
+### Custom Post Types ###
+
+### Custom Taxonomies ###
