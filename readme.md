@@ -243,16 +243,16 @@ Pages are also enabled by default in every WordPress theme. Pages and posts are 
 
 A unique feature to pages is that you can also create Custom Page Templates, and then assign the custom page templates to specific pages on your site.  For example, you may have an About Us page and you want to use a custom template  You can simply create a new file in the “views” directory called “about.blade.php”, and use the code below as a template:
 ```
-@layout('layouts/master')
 <?php /* Template Name: About Page Template */ ?>
 @section('content')
+    @wpposts
+        <h1>{{ the_title() }}</h1>
+        <p>{{ the_content() }}</p>
+    @wpempty
+        <h1>No posts found</h1>
+    @wpend
+@endsection
 
-@wpposts
-    <!--  
-    your html goes here
-    -->
-@wpempty
-@wpend
 ```
 
 ### Custom Post Types ###
