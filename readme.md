@@ -6,7 +6,7 @@ Vanilla WP Boilerplate is a boilerplate designed to simplify the process of taki
 * [Installation](#installation)
 * [Basics](#basics)
 * [Directory Structure](#directory-structure)
-
+* [Theme Components](#theme-components)
 ## Example
 
 Stock Wordpress
@@ -203,7 +203,7 @@ Product page
 
 The most important concept to remember is that we are creating these views so that they are reusable and completely dynamic.  For example, if you have a Product view, it may be re-used to show several different products on the site.
 
-#### Partia                                   ls ####
+#### Partials ####
 In the name of DRY (Don't Repeat Yourself), we place any front end code that is used across more than 1 view into a specific partial.  For example, if both your "Home Page" view and your "Product" view has a newsletter HTML on it, we can copy the code for the newsletter, place it into a partial, and then load the partial in both of the views using:
 
 ```
@@ -215,6 +215,23 @@ Any time you find two views using the same block of HTML, you should partial it 
 ### Controllers ###
 Controllers can be used to pass data to a view. A TestController.php is included to demonstrate it's use. Specify what views the controller applies to in the $views array and return the actual data in the process method.
 
+```
+class TestController extends Controller
+{
+    // The view this will apply to
+    protected $views = [
+        'index'
+    ];
+
+    // The data to return to the view
+    public function process()
+    {
+        return ['home' => 'that', 'page' => 'this'];
+    }
+
+}
+```
+
 ### Custom Page Templates ###
 Pages are also enabled by default in every WordPress theme. Pages and posts are identical other than  (1) pages are hierarchical, so a page can have a parent page and many children pages and (2) pages do not have category or tags associated with them (although you certainly can enable this behavior if you wanted to).
 
@@ -223,16 +240,13 @@ A unique feature to pages is that you can also create Custom Page Templates, and
 @layout('layouts/master')
 <?php /* Template Name: About Page Template */ ?>
 @section('content')
-<?php while ( have_posts() ) : the_post(); ?>
 
+@wpposts
     <!--  
-
     your html goes here
-
     -->
-
-
-@endsection
+@wpempty
+@wpend
 ```
 
 ### Custom Post Types ###
@@ -247,7 +261,6 @@ However, let's assume that the site you are building has other data types.  For 
 Within the theme-config.php, it is easy to add an additional post type within the loadCustomPostTypes() method. You can reference the WordPress documentation for register_post_type to see what arguments can be added for each custom post type. https://codex.wordpress.org/Function_Reference/register_post_type
 
 ### Custom Taxonomies ###
-
 Taxonomies can be used to sort and filter your post types.  By default, WordPress includes the following taxonomies:
 
 Categories - categories, by default, only exist on the "Posts" post type.  Categories allow you to group many posts together.
@@ -258,3 +271,21 @@ The main difference between categories and tags is that categories are hierarchi
 In the Post Types section, we explained how you can create "Custom Post Types".  We can also create "Custom Taxonomies" and assign them to the Post Types in the theme which us allows us to filter the posts.  For example, if we have a Products CPT, we may want to be able to filter these Products by their color.  We can create a Custom Taxonomy called "Color" and then assign it to the Products CPT.  This would allow us to then add Colors, and assign them to the products.
 
 Within the theme-config.php, you can create custom taxonomies and assign them to post types within the loadCustomTaxonomies() method.
+
+## Menus ##
+Your theme likely has a navigation menu (or two menus, or many).  For example, you may have a menu in the header, and also a menu in the footer.  Menus in WordPress allow you to dynamically control which pages are outputted into the menus.
+
+Within the theme-config.php, you can create and define menus within the setMenus() method.
+
+## Sidebars ##
+To define a new custom sidebar widget area, please see the loadSidebars() method in the theme-config.php file.
+
+## Option panels ##
+Within the Vanilla theme, you can create custom Options Panels that will then appear in wp-admin.  You can assign ACF field groups to these option panels.  The purpose of the Options Panels is to give the theme some Global configuration options.  For example, perhaps you want the user to be able to update the logo on the site.  You can create an Options panel called "Header Options", and then create a field group on this Options panel called "Header Logo".  The user will then be able to update the logo dynamically in wp-admin.
+
+Within the theme-config.php, you can create custom options panels within the loadOptionsPanel() method.
+
+## Custom fields ##
+Every custom page template, post type, options panel, custom taxonomy may have additional data associated with it.  For example, on your product posts, you will want to be able to store the color of your product, pricing information, and customer reviews.  Or, on your about us custom page template, you may want to store a group of client testimonials.
+
+For each area on the site where we have custom data to be stored, we will create an Advanced Custom Fields field group, and then create fields that will allow the user to easily update the content on that specific page, post, options panel, or taxonomy.
