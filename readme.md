@@ -7,6 +7,7 @@ Vanilla WP Boilerplate is a boilerplate designed to simplify the process of taki
 * [Basics](#basics)
 * [Directory Structure](#directory-structure)
 * [Theme Components](#theme-components)
+
 ## Example
 
 Stock Wordpress
@@ -149,6 +150,15 @@ If you are already a WordPress developer, the power of the Vanilla theme comes w
 Follow the [Theme Components](#theme-components) guide to configure your theme-config.php
 
 ## Theme Components ##
+* [Templates](#templates)
+* [Controllers](#controllers)
+* [Custom Page Templates](#custom-page-templates)
+* [Custom Post Types](#custom-post-types)
+* [Custom Taxonomies](#custom-taxonomies)
+* [Menus](#menus)
+* [Sidebars](#sidebars)
+* [Option Panels](#option-panels)
+* [Custom Fields](#custom-fields)
 
 ### Templates ###
 The Vanilla theme uses the Laravel Blade template engine to power the theme files.  For more details on Blade, you can read the documentation here: https://laravel.com/docs/5.2/blade
@@ -280,12 +290,12 @@ Within the theme-config.php, you can create and define menus within the setMenus
 ## Sidebars ##
 To define a new custom sidebar widget area, please see the loadSidebars() method in the theme-config.php file.
 
-## Option panels ##
+## Option Panels ##
 Within the Vanilla theme, you can create custom Options Panels that will then appear in wp-admin.  You can assign ACF field groups to these option panels.  The purpose of the Options Panels is to give the theme some Global configuration options.  For example, perhaps you want the user to be able to update the logo on the site.  You can create an Options panel called "Header Options", and then create a field group on this Options panel called "Header Logo".  The user will then be able to update the logo dynamically in wp-admin.
 
 Within the theme-config.php, you can create custom options panels within the loadOptionsPanel() method.
 
-## Custom fields ##
+## Custom Fields ##
 Every custom page template, post type, options panel, custom taxonomy may have additional data associated with it.  For example, on your product posts, you will want to be able to store the color of your product, pricing information, and customer reviews.  Or, on your about us custom page template, you may want to store a group of client testimonials.
 
 For each area on the site where we have custom data to be stored, we will create an Advanced Custom Fields field group, and then create fields that will allow the user to easily update the content on that specific page, post, options panel, or taxonomy.
