@@ -201,16 +201,11 @@ The default views that are created for you are:
 * **test-page.blade.php** - This is a simple custom page template
 
 Other examples of common views in your theme:
-
-Blog index page (a feed of blog posts)
-
-Blog single page (a single blog post)
-
-Blog category page (a feed of blog posts from a specific category)
-
-Search results page
-
-Product page
+* Blog index page (a feed of blog posts)
+* Blog single page (a single blog post)
+* Blog category page (a feed of blog posts from a specific category)
+* Search results page
+* Product page
 
 The most important concept to remember is that we are creating these views so that they are reusable and completely dynamic.  For example, if you have a Product view, it may be re-used to show several different products on the site.
 
@@ -356,4 +351,4 @@ The asset helper function allows you to easily return an absolute URL to a file 
 <img src="{{ asset('images/image-name.png') }}" />
 ```
 
-You can also use the `@asset` directive within blades for the same functionality. 
+You can also use the `@asset` directive within blades for the same functionality.
