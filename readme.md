@@ -9,7 +9,6 @@ Vanilla WP Boilerplate is a boilerplate designed to simplify the process of taki
 * [Theme Components](#theme-components)
 
 ## Example
-
 Stock Wordpress
 ```
 <?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
@@ -65,17 +64,14 @@ composer install
 ```
 
 ### Create .env in the root of your project
-
 In the project root, you will find a file called .env.example, make a copy of this and name it .env
 
 Open the .env file and update the values to match your local development environment.
 
 ### Create a MySQL database
-
 You will need to create a new MySQL database that matches the name you used under DB_NAME in the **.env**
 
 ### Setup site host and finish installation
-
 As a final step, you will need to ensure that you setup the site to be served within your local dev environment.  Please follow the instructions in your local dev environment setup guide if you have questions about this.  
 
 The important detail to note here is that the public path for the Vanilla boilerplate theme is this:
@@ -113,7 +109,6 @@ We always recommend Gravity Forms as the best plugin to use for form submission 
 ACF5 is bundled directly into the theme itself because it relies on the ACF5 Options Panel functionality and we also use Advanced Custom Fields heavily during WP development.  For the time being, the theme does not work well without ACF5, but on a future release, we may have a version of the theme that does not use ACF5.
 
 ### Directory Structure ###
-
 This is the directory structure of the Vanilla theme itself.  The theme directory is in `public/wp-content/themes`, which is where all of your theme coding and customization will happen.
 
 * **assets** - All static assets
@@ -160,11 +155,10 @@ Follow the [Theme Components](#theme-components) guide to configure your theme-c
 * [Option Panels](#option-panels)
 * [Custom Fields](#custom-fields)
 
-### Templates ###
+### Blade Templates ###
 The Vanilla theme uses the Laravel Blade template engine to power the theme files.  For more details on Blade, you can read the documentation here: https://laravel.com/docs/5.2/blade
 
 #### Layouts ####
-
 For reference, here is the default layout that we use in the theme:
 ```
 <!DOCTYPE html>

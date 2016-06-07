@@ -149,8 +149,7 @@ class Blade {
 	protected function extend()
     {
 		// add @acfrepeater
-		$this->blade->getCompiler()->extend(function($view, $compiler)
-		{
+		$this->blade->getCompiler()->extend(function($view, $compiler) {
 			if(!function_exists('get_field')) {
 				return $view;
 			}
@@ -162,14 +161,12 @@ class Blade {
 		});
 
 		// add @acfempty
-		$this->blade->getCompiler()->extend(function($view, $compiler)
-		{
+		$this->blade->getCompiler()->extend(function($view, $compiler) {
 		    return str_replace('@acfempty', '<?php endwhile; ?><?php else: ?>', $view);
 		});
 
 		// add @acfend
-		$this->blade->getCompiler()->extend(function($view, $compiler)
-		{
+		$this->blade->getCompiler()->extend(function($view, $compiler) {
 			if(!function_exists('get_field')) {
 				return $view;
 			}
@@ -177,8 +174,7 @@ class Blade {
 		});
 
 		// add @subfield
-		$this->blade->getCompiler()->extend(function($view, $compiler)
-		{
+		$this->blade->getCompiler()->extend(function($view, $compiler) {
 			if(!function_exists('get_field')) {
 				return $view;
 			}
@@ -190,8 +186,7 @@ class Blade {
 		});
 
 		// add @field
-		$this->blade->getCompiler()->extend(function($view, $compiler)
-		{
+		$this->blade->getCompiler()->extend(function($view, $compiler) {
 			if(!function_exists('get_field')) {
 				return $view;
 			}
@@ -203,8 +198,7 @@ class Blade {
 		});
 
 		// add @hasfield
-		$this->blade->getCompiler()->extend(function($view, $compiler)
-		{
+		$this->blade->getCompiler()->extend(function($view, $compiler) {
 			if(!function_exists('get_field')) {
 				return $view;
 			}
@@ -215,14 +209,12 @@ class Blade {
 		});
 
 		// add @wpposts
-		$this->blade->getCompiler()->extend(function($view, $compiler)
-		{
+		$this->blade->getCompiler()->extend(function($view, $compiler) {
 		    return str_replace('@wpposts', '<?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>', $view);
 		});
 
 		// add @wpquery
-		$this->blade->getCompiler()->extend(function($view, $compiler)
-		{
+		$this->blade->getCompiler()->extend(function($view, $compiler) {
 		    $pattern = '/(\s*)@wpquery(\s*\(.*\))/';
 			$replacement  = '$1<?php $bladequery = new WP_Query$2; ';
 			$replacement .= 'if ( $bladequery->have_posts() ) : ';
@@ -249,6 +241,14 @@ class Blade {
 		$this->blade->getCompiler()->directive('scripts', function($expression) use ($self) {
             return '<?php '. get_class($self) .'::add_scripts('.$expression.'); ?>';
         });
+
+		// add @asset
+		$this->blade->getCompiler()->extend(function($view, $compiler) {
+			$pattern = '/(\s*)@asset(\s*\(.*\))/';
+			$replacement = '$1<?php Helper::asset($2); ?>';
+
+			return preg_replace($pattern, $replacement, $view);
+		})
 	}
 
 	/**
