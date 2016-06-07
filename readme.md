@@ -256,33 +256,70 @@ A unique feature to pages is that you can also create Custom Page Templates, and
 ### Custom Post Types ###
 Post Types refer to the data of your WP theme.  Both “Posts” and “Pages” that we just covered, are “post types” within WordPress that are enabled by default.
 
-WordPress gives you the ability to create more post types if your theme requires it.
-
 In many cases, your theme will not require you to create any additional post types, and the post and page post types will fulfill all the needs of your theme.
 
 However, let's assume that the site you are building has other data types.  For example, maybe your site has client testimonials that are displayed in various parts of the site.  Or, if you are building a portfolio on your site, you will have many different portfolio items.  Finally, if you are selling something on your site, you may have a list of products.  In each of those cases, you will need to create a Custom Post Type (CPT) so that you will be able to easily store this data in your theme.
 
+An example of a simple testimonial custom post type:
+```
+$this->customPostTypes['testimonials'] = [
+
+    'label' => 'Testimonials',
+    'description' => 'These are client testimonials ',
+    'public' => true,
+    'exclude_from_search' => true,
+    'show_ui' => true, // If true, WP will generate a UI for managing in admin
+    'supports' => [ 'title', 'editor' ], // Array of default behaviors to use
+    'has_archive' => false, // Prevent archiving for this post type
+    'rewrite' => true, // Rewriter for pretty URLs
+    'single-post-view' => 'testimonial' // Specifies a custom view for this, in this case it refers to views/testimonial.blade.php
+];
+```
 Within the theme-config.php, it is easy to add an additional post type within the loadCustomPostTypes() method. You can reference the WordPress documentation for register_post_type to see what arguments can be added for each custom post type. https://codex.wordpress.org/Function_Reference/register_post_type
 
+By default, your custom post type will use a blade based off of the name of the post type. So for example testimonials above would use testimonials.blade.php by default. However, if you specify the single-post-view option, you can specify whichever template you'd like.
+
 ### Custom Taxonomies ###
-Taxonomies can be used to sort and filter your post types.  By default, WordPress includes the following taxonomies:
+Taxonomies can be used to sort and filter your post types. We support creating custom taxonomies as needed.
 
-Categories - categories, by default, only exist on the "Posts" post type.  Categories allow you to group many posts together.
-Tags - tags, by default, also only exists on the "Posts" post type.  Tags also allow you to group many posts together.
+Custom taxonomies can be created and assigned to post types within the theme which allows filtering of posts. For example, if we have a Testimonials CPT, we may want to be able to filter those Testimonials by type of client (residential or business). We can create a custom taxonomy called "client_type" and then assign it to the Testimonials CPT. This would allow us to then add the client type and add them to the testimonials.
 
-The main difference between categories and tags is that categories are hierarchical and tags are not.  This means that categories can have parent and children categories, whereas tags cannot.
+```
+$this->customTaxonomies['testimonial-client'] = [
 
-In the Post Types section, we explained how you can create "Custom Post Types".  We can also create "Custom Taxonomies" and assign them to the Post Types in the theme which us allows us to filter the posts.  For example, if we have a Products CPT, we may want to be able to filter these Products by their color.  We can create a Custom Taxonomy called "Color" and then assign it to the Products CPT.  This would allow us to then add Colors, and assign them to the products.
+    'belongs_to_post_type' => 'testimonials',
+    'label' => 'Client Type,
+    'description' => 'This is the client type for a testimonial',
+    'public' => true,
+    'hierarchical' => false
+];
+```
 
-Within the theme-config.php, you can create custom taxonomies and assign them to post types within the loadCustomTaxonomies() method.
+Within the theme-config.php, you can create custom taxonomies and assign them to post types within the loadCustomTaxonomies() method. Reference the WordPress documentation for register_taxonomy to see what arguments can be added for each custom taxonomy. https://codex.wordpress.org/Function_Reference/register_taxonomy
 
 ## Menus ##
 Your theme likely has a navigation menu (or two menus, or many).  For example, you may have a menu in the header, and also a menu in the footer.  Menus in WordPress allow you to dynamically control which pages are outputted into the menus.
 
 Within the theme-config.php, you can create and define menus within the setMenus() method.
+```
+$this->menus = [
+    'main_nav' => 'Main Navigation',
+    'footer_nav' => 'Footer Navigation'
+];
+```
 
 ## Sidebars ##
 To define a new custom sidebar widget area, please see the loadSidebars() method in the theme-config.php file.
+```
+register_sidebar([
+    'name'          => 'Primary',
+    'id'            => 'sidebar-primary',
+    'before_widget' => '<section class="widget %1$s %2$s">',
+    'after_widget'  => '</section>',
+    'before_title'  => '<h3>',
+    'after_title'   => '</h3>',
+]);
+```
 
 ## Option Panels ##
 Within the Vanilla theme, you can create custom Options Panels that will then appear in wp-admin.  You can assign ACF field groups to these option panels.  The purpose of the Options Panels is to give the theme some Global configuration options.  For example, perhaps you want the user to be able to update the logo on the site.  You can create an Options panel called "Header Options", and then create a field group on this Options panel called "Header Logo".  The user will then be able to update the logo dynamically in wp-admin.
