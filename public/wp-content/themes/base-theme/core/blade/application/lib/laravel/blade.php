@@ -24,9 +24,10 @@ class Blade {
 		'render_each',
 		'render',
 		'yields',
-		'yield_sections',
+		'shows',
 		'section_start',
 		'section_end',
+		'stop'
 	);
 
 	/**
@@ -201,8 +202,8 @@ class Blade {
 	 */
 	protected static function compile_echos($value)
 	{
-		$value = preg_replace('/\{\{\{(.+?)\}\}\}/', '<?php echo HTML::entities($1); ?>', $value);
-
+		$value = preg_replace('/\{!!(.+?)!!\}/', '<?php echo "$1"; ?>', $value);
+		//	print_r($value); die();
 		return preg_replace('/\{\{(.+?)\}\}/', '<?php echo $1; ?>', $value);
 	}
 
@@ -350,14 +351,14 @@ class Blade {
 	}
 
 	/**
-	 * Rewrites Blade @render_each statements into valid PHP.
+	 * Rewrites Blade @each statements into valid PHP.
 	 *
 	 * @param  string  $value
 	 * @return string
 	 */
 	protected static function compile_render_each($value)
 	{
-		$pattern = static::matcher('render_each');
+		$pattern = static::matcher('each');
 
 		return preg_replace($pattern, '$1<?php echo render_each$2; ?>', $value);
 	}
@@ -381,11 +382,11 @@ class Blade {
 	 *
 	 * @return string
 	 */
-	protected static function compile_yield_sections($value)
+	protected static function compile_shows($value)
 	{
 		$replace = '<?php echo \\Laravel\\Section::yield_section(); ?>';
 
-		return str_replace('@yield_section', $replace, $value);
+		return str_replace('@show', $replace, $value);
 	}
 
 	/**
@@ -414,6 +415,19 @@ class Blade {
 	protected static function compile_section_end($value)
 	{
 		return preg_replace('/@endsection/', '<?php \\Laravel\\Section::stop(); ?>', $value);
+	}
+
+	/**
+	 * Rewrites Blade @stop statements into Section statements.
+	 *
+	 * The Blade @endsection statement is a shortcut to the Section::stop method.
+	 *
+	 * @param  string  $value
+	 * @return string
+	 */
+	protected static function compile_stop($value)
+	{
+		return preg_replace('/@stop/', '<?php \\Laravel\\Section::stop(); ?>', $value);
 	}
 
 	/**

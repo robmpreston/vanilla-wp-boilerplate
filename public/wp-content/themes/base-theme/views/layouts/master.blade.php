@@ -47,6 +47,7 @@
     <![endif]-->
 </head>
 <body>
+
     @yield('content')
 
     {{ wp_footer() }}
