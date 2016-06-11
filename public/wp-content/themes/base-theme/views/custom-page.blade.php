@@ -1,5 +1,5 @@
 @extends('layouts.master')
-<?php /* Template Name: Test Page Template */ ?>
+<?php /* Template Name: Custom Page Template */ ?>
 @section('content')
     @wpposts
         <h1>{{ the_title() }}</h1>

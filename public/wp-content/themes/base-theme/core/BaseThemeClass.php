@@ -2,8 +2,6 @@
 
 namespace BaseTheme;
 
-require get_template_directory() . '/vendor/autoload.php';
-
 abstract class BaseThemeClass
 {
     /**
@@ -32,12 +30,6 @@ abstract class BaseThemeClass
      * @var Blade
      */
     public $blade;
-
-    /**
-     * Custom controllers array
-     * @var array
-     */
-    public $customControllers;
 
     /**
      * This is the array that holds the image sizes.
@@ -114,7 +106,7 @@ abstract class BaseThemeClass
      */
     public function __construct()
     {
-        add_action('init', [ $this, 'loadFiles' ]);
+        add_action('init', array( $this, 'loadFiles' ));
 
         $this->loadBladeTemplating();
 
@@ -136,27 +128,27 @@ abstract class BaseThemeClass
     public function addWpActions()
     {
         /* Enqueue the Theme Script */
-        add_action( 'wp_enqueue_scripts', [ $this, 'loadScripts' ]);
+        add_action( 'wp_enqueue_scripts', array( $this, 'loadScripts' ));
 
         /* Enqueue the Theme Stylesheet */
-        add_action( 'wp_enqueue_scripts', [ $this, 'loadStyles' ]);
+        add_action( 'wp_enqueue_scripts', array( $this, 'loadStyles' ));
 
         /* Load custom CSS/JS into head */
-        add_action('wp_head', [ $this, 'loadAdditionalHeadJsCss' ]);
+        add_action('wp_head', array( $this, 'loadAdditionalHeadJsCss' ));
 
         /* Load additional JS into footer */
-        add_action('wp_footer', [ $this, 'loadAdditionalFooterJs' ]);
+        add_action('wp_footer', array( $this, 'loadAdditionalFooterJs' ));
 
         /* Load favicions into head */
-        add_action('wp_head', [ $this, 'loadFavicons' ]);
+        add_action('wp_head', array( $this, 'loadFavicons' ));
 
         /* Clean up excerpt */
-        add_filter('excerpt_more', [ $this, 'excerptMore' ]);
+        add_filter('excerpt_more', array( $this, 'excerptMore' ));
 
         /* Clear blade view cache if DISABLE_BLADE_CACHE constant = true */
-        add_action('init', [ $this, 'clearBladeCache' ]);
+        add_action('init', array( $this, 'clearBladeCache' ));
 
-        add_action('init', [ $this, 'loadWpCliCommands' ]);
+        add_action('init', array( $this, 'loadWpCliCommands' ));
     }
 
     /**
@@ -173,13 +165,13 @@ abstract class BaseThemeClass
         /* Load all custom post types */
         if(method_exists($this, 'loadCustomPostTypes'))
         {
-            add_action('init', [ $this, 'addCustomPostTypes' ]);
+            add_action('init', array( $this, 'addCustomPostTypes' ));
         }
 
         /* Load all custom post types */
         if(method_exists($this, 'loadCustomTaxonomies'))
         {
-            add_action('init', [ $this, 'addCustomTaxonomies' ]);
+            add_action('init', array( $this, 'addCustomTaxonomies' ));
         }
 
         /* Load all options panels if not globally disabled */
@@ -191,13 +183,7 @@ abstract class BaseThemeClass
         /* Load all dynamic sidebars */
         if(method_exists($this, 'loadSidebars'))
         {
-            add_action('widgets_init', [ $this, 'loadSidebars' ]);
-        }
-
-        /* Load all custom controllers */
-        if (method_exists($this, 'loadCustomControllers'))
-        {
-            $this->addCustomControllers();
+            add_action('widgets_init', array( $this, 'loadSidebars' ));
         }
 
         /* Load all image sizes */
@@ -276,9 +262,9 @@ abstract class BaseThemeClass
      */
     public function loadFiles()
     {
-        $filesToLoad = [
+        $filesToLoad = array(
             'includes/Helper.php',
-        ];
+        );
 
         foreach ($filesToLoad as $file)
         {
@@ -303,10 +289,10 @@ abstract class BaseThemeClass
     {
         if ( defined( 'WP_CLI' ) && \WP_CLI )
         {
-            $filesToLoad = [
+            $filesToLoad = array(
                 'wp-cli-commands/DevMode.php',
                 'wp-cli-commands/UpdateSiteUrl.php'
-            ];
+            );
 
             foreach ($filesToLoad as $file)
             {
@@ -355,7 +341,7 @@ abstract class BaseThemeClass
         }
         else
         {
-            wp_enqueue_script( $this->themeName .'-script' , asset('compiled/js/theme.js'), [ 'jquery' ], $this->version, true );
+            wp_enqueue_script( $this->themeName .'-script' , asset('compiled/js/theme.js'), array( 'jquery' ), $this->version, true );
         }
     }
 
@@ -364,7 +350,7 @@ abstract class BaseThemeClass
      */
     public function loadStyles()
     {
-        wp_enqueue_style( $this->themeName .'-style', asset('compiled/css/theme.css'), [], $this->version);
+        wp_enqueue_style( $this->themeName .'-style', asset('compiled/css/theme.css'), array(), $this->version);
     }
 
     /**
@@ -429,21 +415,10 @@ abstract class BaseThemeClass
     */
     protected function loadBladeTemplating()
     {
-        $this->blade = new \BaseTheme\Core\Blade\Blade(
-            get_template_directory() . '/views'
-        );
-    }
-
-    /**
-     * Load and registers any view controllers from theme-config.php
-     */
-    protected function addCustomControllers()
-    {
-        $this->loadCustomControllers();
-
-        if( is_array($this->customControllers) )
+        if( !class_exists('WP_Blade_Main_Controller') )
         {
-            $this->blade->controller->register($this->customControllers);
+            include_once( 'blade/blade.php' );
+            $this->blade = \WP_Blade_Main_Controller::make();
         }
     }
 
@@ -471,8 +446,8 @@ abstract class BaseThemeClass
     public function includeAdvancedCustomFields()
     {
         if ( ! class_exists('acf') ) {
-            add_filter('acf/settings/path', [ $this, 'myAcfSettingsPath' ]);
-            add_filter('acf/settings/dir',  [ $this, 'myAcfSettingsDir'  ]);
+            add_filter('acf/settings/path', array( $this, 'myAcfSettingsPath' ));
+            add_filter('acf/settings/dir',  array( $this, 'myAcfSettingsDir'  ));
 
             include_once( 'acf/acf.php');
 
@@ -481,7 +456,7 @@ abstract class BaseThemeClass
             }
         }
 
-        add_filter('acf/format_value', [ $this,'parseTemplateDirectory' ], 10, 3);
+        add_filter('acf/format_value', array( $this,'parseTemplateDirectory' ), 10, 3);
 
         /* Load WPCLI Interface for ACF */
         include_once('acf-wpcli/advanced-custom-fields-wpcli.php');
@@ -493,9 +468,9 @@ abstract class BaseThemeClass
 
     public function parseTemplateDirectory( $value, $post_id, $field )
     {
-        $searchAndReplace = [
+        $searchAndReplace = array(
             '{IMAGEPATH}' => get_template_directory_uri() . '/public/images'
-        ];
+        );
 
         foreach($searchAndReplace as $search => $replace) {
             $value = str_replace($search, $replace, $value);
@@ -526,7 +501,7 @@ abstract class BaseThemeClass
         // Remove "Link" canonical HTTP header
         remove_action('template_redirect', 'wp_shortlink_header', 11);
 
-        add_filter('wp_headers', [ $this, 'removeXPingback' ]);
+        add_filter('wp_headers', array( $this, 'removeXPingback' ));
 
         // remove junk from head
         remove_action('wp_head', 'rel_canonical');

@@ -53,23 +53,13 @@ class Theme extends BaseThemeClass {
         $this->version = getenv('VERSION') ? getenv('VERSION') : '1.0';
     }
 
-    /**
-     * Specify any custom view controllers you've created here and they
-     * will be registered by the theme
-     */
-    public function loadCustomControllers()
-    {
-        $this->customControllers = [
-            \BaseTheme\Controllers\TestController::class
-        ];
-    }
-
     /*
      * Specify your custom post types here and they will be loaded by the theme
      */
     public function loadCustomPostTypes()
     {
-        $this->customPostTypes['custom_post'] = [
+
+        $this->customPostTypes['custom_post'] = array(
 
             'label' => 'Custom Post',
             'description' => 'This is a custom post type',
@@ -79,8 +69,9 @@ class Theme extends BaseThemeClass {
             'supports' => [ 'title', 'editor' ],
             'has_archive' => false,
             'rewrite' => false,
-            'single-post-view' => 'custom_post'
-        ];
+            'single-post-view' => 'custom-post'
+        );
+
     }
 
     /*
@@ -89,8 +80,8 @@ class Theme extends BaseThemeClass {
     public function loadCustomTaxonomies()
     {
         // Sample Custom Taxonomy - Add as many as you'd like
-
-        $this->customTaxonomies['custom_post-category'] = [
+        /*
+        $this->customTaxonomies['custom_post-category'] = array(
 
             'belongs_to_post_type' => 'custom_post',
             'label' => 'Post Categories',
@@ -99,7 +90,8 @@ class Theme extends BaseThemeClass {
             'hierarchical' => false
 
             // any additional options can be added as defined in WP codex: https://codex.wordpress.org/Function_Reference/register_taxonomy
-        ];
+        );
+        */
     }
 
     /*
@@ -111,10 +103,10 @@ class Theme extends BaseThemeClass {
 
         /*
         add_shortcode( 'contact_form', function($atts) {
-            return $this->blade->view('forms/contact-form', [
+            return $this->blade->view('forms/contact-form', array(
                 'form_title' => 'Contact Us',
                 'atts' => $atts
-            ]);
+            ));
         });
         */
     }
@@ -125,14 +117,14 @@ class Theme extends BaseThemeClass {
     public function loadSidebars()
     {
         /*
-        register_sidebar([
+        register_sidebar(array(
             'name'          => 'Primary',
             'id'            => 'sidebar-primary',
             'before_widget' => '<section class="widget %1$s %2$s">',
             'after_widget'  => '</section>',
             'before_title'  => '<h3>',
             'after_title'   => '</h3>',
-        ]);
+        ));
         */
     }
 
@@ -141,25 +133,25 @@ class Theme extends BaseThemeClass {
      */
     public function loadOptionsPanel()
     {
-        acf_add_options_page([
+        acf_add_options_page(array(
             'page_title'    => 'Theme Options',
             'menu_title'    => 'Options',
             'menu_slug'     => 'theme-options-settings',
             'capability'    => 'edit_posts',
             'redirect'      => true
-        ]);
+        ));
 
-        acf_add_options_sub_page([
+        acf_add_options_sub_page(array(
             'page_title'    => 'Header & Footer Options',
             'menu_title'    => 'Header / Footer',
             'parent_slug'   => 'theme-options-settings',
-        ]);
+        ));
 
-        acf_add_options_sub_page([
+        acf_add_options_sub_page(array(
             'page_title'    => 'JavaScript & CSS Options',
             'menu_title'    => 'Javascript / CSS',
             'parent_slug'   => 'theme-options-settings',
-        ]);
+        ));
     }
 
     /*
@@ -167,10 +159,10 @@ class Theme extends BaseThemeClass {
      */
     public function setMenus()
     {
-        $this->menus = [
+        $this->menus = array(
             'main_nav' => 'Main Navigation',
             'footer_nav' => 'Footer Navigation'
-        ];
+        );
     }
 
     /**
@@ -182,12 +174,12 @@ class Theme extends BaseThemeClass {
      */
     public function setImageSizes()
     {
-        $this->imageSizes[] = [
+        $this->imageSizes[] = array(
             'name' => 'medium-size',
             'width' => 600,
             'height' => 400,
             'crop' =>true
-        ];
+        );
     }
 
 }

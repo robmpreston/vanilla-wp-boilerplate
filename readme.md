@@ -147,7 +147,6 @@ Follow the [Theme Components](#theme-components) guide to configure your theme-c
 
 ## Theme Components ##
 * [Templates](#templates)
-* [Controllers](#controllers)
 * [Custom Page Templates](#custom-page-templates)
 * [Custom Post Types](#custom-post-types)
 * [Custom Taxonomies](#custom-taxonomies)
@@ -198,7 +197,7 @@ The default views that are created for you are:
 * **index.blade.php** - The root view for your site, view is loaded in place of the index.php in the root.
 * **page.blade.php** - This replaces the page.php and will be displayed for pages with the default template.
 * **single.blade.php** - This replaces the single.php and will be displayed for posts with the default template.
-* **test-page.blade.php** - This is a simple custom page template
+* **custom-page.blade.php** - This is a simple custom page template
 
 Other examples of common views in your theme:
 * Blog index page (a feed of blog posts)
@@ -217,26 +216,6 @@ In the name of DRY (Don't Repeat Yourself), we place any front end code that is 
 ```
 
 Any time you find two views using the same block of HTML, you should partial it out into a file in the `partials` directory. Never reuse the same code in two places.
-
-### Controllers ###
-Controllers can be used to pass data to a view. A TestController.php is included to demonstrate its use. Specify what views the controller applies to in the `$views` array and return the actual data to the view in the process method.
-
-```
-class TestController extends Controller
-{
-    // The view this will apply to
-    protected $views = [
-        'index'
-    ];
-
-    // The data to return to the view
-    public function process()
-    {
-        return ['home' => 'that', 'page' => 'this'];
-    }
-
-}
-```
 
 ### Custom Page Templates ###
 Pages are also enabled by default in every WordPress theme. Pages and posts are identical other than  (1) pages are hierarchical, so a page can have a parent page and many children pages and (2) pages do not have category or tags associated with them (although you certainly can enable this behavior if you wanted to).
@@ -275,7 +254,7 @@ $this->customPostTypes['testimonials'] = [
     'single-post-view' => 'testimonial' // Specifies a custom view for this, in this case it refers to views/testimonial.blade.php
 ];
 ```
-Within the theme-config.php, it is easy to add an additional post type within the loadCustomPostTypes() method. You can reference the WordPress documentation for register_post_type to see what arguments can be added for each custom post type. https://codex.wordpress.org/Function_Reference/register_post_type
+Within the theme-config.php, it is easy to add an additional post type within the loadCustomPostTypes() method. You can reference the WordPress documentation for register_post_type to see what arguments can be added for each custom post type: https://codex.wordpress.org/Function_Reference/register_post_type
 
 By default, your custom post type will use a blade based off of the name of the post type. So for example testimonials above would use `testimonials.blade.php` by default. However, if you specify the single-post-view option, you can specify whichever template you'd like.
 
@@ -295,7 +274,7 @@ $this->customTaxonomies['testimonial-client'] = [
 ];
 ```
 
-Within the theme-config.php, you can create custom taxonomies and assign them to post types within the loadCustomTaxonomies() method. Reference the WordPress documentation for register_taxonomy to see what arguments can be added for each custom taxonomy. https://codex.wordpress.org/Function_Reference/register_taxonomy
+Within the theme-config.php, you can create custom taxonomies and assign them to post types within the loadCustomTaxonomies() method. Reference the WordPress documentation for register_taxonomy to see what arguments can be added for each custom taxonomy: https://codex.wordpress.org/Function_Reference/register_taxonomy
 
 ### Menus ###
 Your theme likely has a navigation menu (or two menus, or many).  For example, you may have a menu in the header, and also a menu in the footer.  Menus in WordPress allow you to dynamically control which pages are outputted into the menus.
@@ -342,7 +321,7 @@ For example, this:
 ```
 Would generate this:
 ```
-<img src="http://path-to-image/size/profile-image.jpg" alt="Image Alt Text" title="Image Title Text" class="pull-left" />
+<img src="http://path-to-image/size/profile-image.jpg" class="pull-left" />
 ```
 
 ### asset() ###
