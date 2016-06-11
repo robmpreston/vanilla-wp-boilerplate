@@ -66,7 +66,7 @@ class Theme extends BaseThemeClass {
             'public' => true,
             'exclude_from_search' => true,
             'show_ui' => true,
-            'supports' => [ 'title', 'editor' ],
+            'supports' => array( 'title', 'editor' ),
             'has_archive' => false,
             'rewrite' => false,
             'single-post-view' => 'custom-post'

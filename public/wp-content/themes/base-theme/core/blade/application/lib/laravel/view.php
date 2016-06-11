@@ -125,9 +125,7 @@ class View implements ArrayAccess {
 		$search_paths = array(
 			get_stylesheet_directory(),
 			get_template_directory(),
-			get_template_directory() . '/views',
-			get_template_directory() . '/views/layouts',
-			get_template_directory() . '/views/partials',
+			get_template_directory() . '/views'
 		);
 
 		foreach ($search_paths as $dir)
