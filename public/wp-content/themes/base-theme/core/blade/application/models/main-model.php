@@ -30,6 +30,12 @@ class WP_Blade_Main_Model {
 	 */
 	protected $bladedTemplate;
 
+
+	public function __construct()
+    {
+		$this->customPostViews = [];
+	}
+
 	/**
 	 * Handle the compilation of the templates
 	 * @param { str } template path
@@ -54,26 +60,14 @@ class WP_Blade_Main_Model {
 		 * Otherwise, load the blade with the $template name
 		 */
 		if ( in_array($postType, $postTypes) && is_single() ) {
-			if (isset($this->customPostViews[$postType])) {
-				$viewFile = $this->customPostViews[$postType];
-			} else {
-				$viewFile = $postType;
-			}
+			$viewFile = isset($this->customPostViews[$postType]) ? $this->customPostViews[$postType] : $postType;
 		} else if (is_page()) {
-			$pageTemplate = get_page_template();
-			if ($pageTemplate != '') {
-				$viewFile = strstr(basename($pageTemplate), '.', true);
-			} else {
-				$viewFile = 'page';
-			}
+			$viewFile = get_page_template() != '' ? strstr(basename($template), '.', true) : 'page';
 		} else if (is_404()) {
 			$viewFile = '404';
 		} else {
-			// get the base name
-			$file = basename($template);
-
 			// blade friendly name
-			$viewFile = str_replace('.php', '', $file);
+			$viewFile = str_replace('.php', '', basename($template));
 		}
 
 		require_once( WP_BLADE_CONFIG_PATH . 'paths.php' );
@@ -86,11 +80,6 @@ class WP_Blade_Main_Model {
 			file_put_contents( $pathToCompiled, "<?php // $template ?>\n".Laravel\Blade::compile( $view ) );
 
 		$view->path = $pathToCompiled;
-
-		if ( $error = error_get_last() ) {
-		    //var_dump($error);
-		    //exit;
-		}
 
 		return $this->bladedTemplate = $view->path;
 
@@ -116,12 +105,15 @@ class WP_Blade_Main_Model {
 		return $this->template_include_blade( $template );
 	}
 
+	/**
+	 * Get a list of custom post types registered within WP
+	 */
 	private function getCustomPostTypes()
 	{
-		$args = [
+		$args = array(
    			'public'   => true,
    			'_builtin' => false
-		];
+		);
 
 		$output = 'names'; // names or objects, note names is the default
 		$operator = 'and'; // 'and' or 'or'
