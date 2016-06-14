@@ -33,7 +33,7 @@ class WP_Blade_Main_Model {
 
 	public function __construct()
     {
-		$this->customPostViews = [];
+		$this->customPostViews = array();
 	}
 
 	/**
@@ -51,6 +51,9 @@ class WP_Blade_Main_Model {
 		$postTypes = $this->getCustomPostTypes();
 		$postType = get_post_type();
 
+		// blade friendly name
+		$viewFile = str_replace('.php', '', basename($template));
+
 		/*
 		 * This is where the magic happens. If it's a custom post, load either the
 		 * specified single post view or the named blade template from our views folder.
@@ -65,9 +68,6 @@ class WP_Blade_Main_Model {
 			$viewFile = get_page_template() != '' ? strstr(basename($template), '.', true) : 'page';
 		} else if (is_404()) {
 			$viewFile = '404';
-		} else {
-			// blade friendly name
-			$viewFile = str_replace('.php', '', basename($template));
 		}
 
 		require_once( WP_BLADE_CONFIG_PATH . 'paths.php' );
